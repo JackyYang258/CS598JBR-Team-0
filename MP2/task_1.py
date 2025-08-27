@@ -18,16 +18,21 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     # TODO: download the model
     # TODO: load the model with quantization
     quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.bfloat16
-    )
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type='nf4'
+        )
     
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    
     model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        trust_remote_code=True,
+        pretrained_model_name_or_path=model_name,
+        load_in_4bit=True,
+        device_map='auto',
+        # max_memory=max_memory,
+        torch_dtype=torch.bfloat16,
         quantization_config=quantization_config,
-        device_map="auto" # Automatically use GPU if available
     )
 
 
@@ -36,72 +41,96 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         # TODO: create prompt for the model
         # Tip : Use can use any data from the dataset to create 
         #       the prompt including prompt, canonical_solution, test, etc.
-        # Step 1: Extract a single test case (input and expected output).
-        # We use the first assertion found in the test string for consistency.
-        test_code = entry['test']
-        # This regex captures the arguments passed to `candidate` and the expected result.
-        # It handles various formatting by stopping at a comma, end of line, or comment.
-        match = re.search(r"assert\s+candidate\((.*?)\)\s*==\s*(.*?)(?:,|$|#)", test_code, re.DOTALL)
+        prefix = 'You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.'
 
-        if not match:
-            print(f"Warning: Could not parse a test case for {entry['task_id']}. Skipping.")
-            continue
+        pattern = re.compile(r"""
+            candidate\((.*?)\) \s*==\s* (.*?) (?:,|\n|$)
+            | assert \s+ (not\s+)? candidate\((.*?)\)
+        """, re.VERBOSE)
         
-        input_args_str = match.group(1).strip()
-        expected_output_str = match.group(2).strip()
+        test_string = entry['test']
+        result_list = []
+        for match in pattern.finditer(test_string):
+            if match.group(1) is not None:
+                inp = match.group(1).strip()
+                out = match.group(2).strip()
+                result_list.append((inp, out))
+            else:
+                inp = match.group(4).strip()
+                out = not bool(match.group(3)) 
+                result_list.append((inp, out))
+        
+        
+        
+        if vanilla == False:
+            if len(result_list) < 2:
+                print(f"Task_ID {entry['task_id']} has less than 2 test cases, skip it.")
+                continue
+            import random
+            random.seed(0) # Seeding for reproducibility
 
-        # Step 2: Combine the docstring/prompt and solution to form the full program.
-        full_program_code = entry['prompt'] + entry['canonical_solution']
+            # Sample two distinct indices from the list of test cases.
+            # The first will be our example, the second will be the new problem.
+            example_index, problem_index = random.sample(range(len(result_list)), 2)
+            
+            example_inp, example_out = result_list[example_index]
+            new_problem_inp = result_list[problem_index][0]
 
-        # Step 3: Construct the prompt using a template.
-        base_template = (
-            "You are an AI programming assistant, utilizing the DeepSeek Coder model, "
-            "developed by DeepSeek Company, and you only answer questions related to computer science. "
-            "For politically sensitive questions, security and privacy issues, and other "
-            "non-computer science questions, you will refuse to answer.\n"
-            "### Instruction:\n"
-            "If the function is called with the input `{input_args}`, what will the following code return?\n"
-            "The return value prediction must be enclosed between [Output] and [/Output] tags. "
-            "For example : [Output]prediction[/Output].\n"
-            "{extra_instructions}"
-            "\n{program}\n\n"
-            "### Response:"
-        )
+            # Dynamically create the example and response based on the selected test case
+            Instruction_crafted = "\nYou are given a Python function and an input. You should reason the code step by step and format the correct output in [Output] and [/Output] tags, such as [Output]prediction[/Output]. Here is an example:\n"
+            
+            Example = (f"### Example:\n"
+                       f"If the input is {example_inp}, what will the following code return? "
+                       f"Format the output as [Output]prediction[/Output]!\n"
+                       f"{entry['prompt']}\n{entry['canonical_solution']}") # The code is the same for both
 
-        extra_instructions = ""
-        if not vanilla: # This is for the "crafted" prompt
-            extra_instructions = "Reason step by step to solve the problem."
+            Results_Example = (f"### Response:\n"
+                           f"Let's reason the code step by step.\n"
+                           f"1. The function is called with the input `{example_inp}`.\n"
+                           f"2. After execution, the function returns `{example_out}`.\n"
+                           f"Therefore the output is: [Output]{example_out}[/Output].\n")
 
-        prompt = base_template.format(
-            input_args=input_args_str,
-            extra_instructions=extra_instructions,
-            program=full_program_code
-        )
+            NewProblem = (f"### New Problem:\n"
+                          f"If the input is {new_problem_inp}, what will the following code return? "
+                          f"Format the output as [Output]prediction[/Output]!\n")
+            
+            # Instruction_crafted = "\nYou are given a Python function and an input. You should reason the code step by step and format the correct output in [Output] and [/Output] tags, such as [Output]prediction[/Output]. Here is an example:\n"
+            # Example = "### Example:\nIf the input is 2, 6, what will the following code return? Format the output as [Output]prediction[/Output]!\ndef odd_integers(a, b):\n    \"\"\"\n    Given two positive integers a and b, return the odd digits between a\n    and b, in ascending order.\n\n    For example:\n    generate_integers(1, 5) => [1, 3, 5]\n    \"\"\"\n    lower = max(1, min(a, b))\n    upper = min(9, max(a, b))\n\n    return [i for i in range(lower, upper+1) if i % 2 == 1]\n"
+            # Results_Example = "### Response:\nLet's reason the code step by step.\n1. Within the function, a is initially 2, b is initially 6.\n2. After calculation, lower is 2 and upper is 6.\n3. The return value is [3, 5], therefore the output is: [Output][3, 5][/Output].\n"
+            # NewProblem = '### New Problem:\nIf the input is ' + inp + ', what will the following code return? Format the output as [Output]prediction[/Output]!\n'
+            prompt = prefix + Instruction_crafted + Example + Results_Example + NewProblem + entry['prompt'] + entry['canonical_solution'] + '### Response:'
+        else:
+            Instruction = '\n### Instruction:\nIf the string is ' + \
+                inp + \
+                    ', what will the following code return?'
+            outputins='\nThe return value prediction must be enclosed between [Output] and [/Output] tags. For example : [Output]prediction[/Output].'
+            pattern_single = r"'''(.*?)'''"
+            pattern_double = r'"""(.*?)"""'
+            cleaned_prompt = re.sub(pattern_single, '', entry['prompt'], flags=re.DOTALL)
+            cleaned_prompt = re.sub(pattern_double, '', cleaned_prompt, flags=re.DOTALL)
+            prompt = prefix + Instruction + outputins + cleaned_prompt + entry['canonical_solution'] + '### Response:'
         
         # TODO: prompt the model and get the response
-        inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(model.device)
-        
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=512,
-            do_sample=False,
-            pad_token_id=tokenizer.eos_token_id
-        )
-
-        response = tokenizer.decode(outputs[0][len(inputs.input_ids[0]):], skip_special_tokens=True)
-        
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        input = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
+        output = model.generate(input, 
+                                max_length=5000, 
+                                num_return_sequences=1
+                                )
+        response = tokenizer.decode(output[0], 
+                                    skip_special_tokens=True, 
+                                    temperature=0)
 
         # TODO: process the response and save it to results
-        prediction_match = re.search(r'\[Output\](.*?)\[/Output\]', response, re.DOTALL | re.IGNORECASE)
+        matches = re.findall(r"\[Output\](.*?)\[/Output\]", response)
+        out = ''
+        if matches != []:
+          out = str(matches[-1]).replace(' ','').replace("'",'"')
+        real = str(result_list[problem_index][1]).replace(' ','').replace("'",'"')
+        if real[0] != '[' and real[0] != '(':
+            real = real.split(',"')[0]
+        verdict = (real == out)
         
-        verdict = False
-        if prediction_match:
-            predicted_output = prediction_match.group(1).strip()
-            if predicted_output == expected_output_str:
-                verdict = True
-        else:
-            predicted_output = "N/A - Output tags not found in response."
-
         print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_correct:\n{verdict}")
         results.append({
             "task_id": entry["task_id"],
