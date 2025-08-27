@@ -1,0 +1,6 @@
+NetIDs ['siqiyang', 'sampleID2', 'sampleID3', 'sampleID4'] with seed 140775227846220186319649371072416763498
+Downloading readme: 0.00B [00:00, ?B/s]Downloading readme: 6.52kB [00:00, 21.5MB/s]
+Downloading data:   0%|          | 0.00/83.9k [00:00<?, ?B/s]Downloading data: 100%|██████████| 83.9k/83.9k [00:00<00:00, 350kB/s]Downloading data: 100%|██████████| 83.9k/83.9k [00:00<00:00, 349kB/s]
+Generating test split:   0%|          | 0/164 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 164/164 [00:00<00:00, 3254.29 examples/s]
+Entire Dataset saved to humaneval.jsonl
+Selected 20 problems saved to selected_humaneval_140775227846220186319649371072416763498.jsonl
