@@ -28,7 +28,6 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     
     model = AutoModelForCausalLM.from_pretrained(
         pretrained_model_name_or_path=model_name,
-        load_in_4bit=True,
         device_map='auto',
         # max_memory=max_memory,
         torch_dtype=torch.bfloat16,
@@ -59,23 +58,28 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
                 inp = match.group(4).strip()
                 out = not bool(match.group(3)) 
                 result_list.append((inp, out))
+        import random
+        random.seed(0) # Seeding for reproducibility
+
+        # Sample two distinct indices from the list of test cases.
+        # The first will be our example, the second will be the new problem.
+        if len(result_list) >= 2:
+            example_index, problem_index = random.sample(range(len(result_list)), 2)
+            # ... your code to use the indices ...
+        else:
+            # Handle the case where the list is too small
+            print("Cannot select two items, the list has fewer than 2 elements or the pattern finder goes wrong.")
+            continue
+        example_index, problem_index = random.sample(range(len(result_list)), 2)
         
+        example_inp, example_out = result_list[example_index]
+        new_problem_inp = result_list[problem_index][0]
         
         
         if vanilla == False:
             if len(result_list) < 2:
                 print(f"Task_ID {entry['task_id']} has less than 2 test cases, skip it.")
                 continue
-            import random
-            random.seed(0) # Seeding for reproducibility
-
-            # Sample two distinct indices from the list of test cases.
-            # The first will be our example, the second will be the new problem.
-            example_index, problem_index = random.sample(range(len(result_list)), 2)
-            
-            example_inp, example_out = result_list[example_index]
-            new_problem_inp = result_list[problem_index][0]
-
             # Dynamically create the example and response based on the selected test case
             Instruction_crafted = "\nYou are given a Python function and an input. You should reason the code step by step and format the correct output in [Output] and [/Output] tags, such as [Output]prediction[/Output]. Here is an example:\n"
             
@@ -101,7 +105,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
             prompt = prefix + Instruction_crafted + Example + Results_Example + NewProblem + entry['prompt'] + entry['canonical_solution'] + '### Response:'
         else:
             Instruction = '\n### Instruction:\nIf the string is ' + \
-                inp + \
+                new_problem_inp + \
                     ', what will the following code return?'
             outputins='\nThe return value prediction must be enclosed between [Output] and [/Output] tags. For example : [Output]prediction[/Output].'
             pattern_single = r"'''(.*?)'''"

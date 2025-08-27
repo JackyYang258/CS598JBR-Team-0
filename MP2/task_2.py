@@ -73,7 +73,6 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     
     model = AutoModelForCausalLM.from_pretrained(
         pretrained_model_name_or_path=model_name,
-        load_in_4bit=True,
         device_map='auto',
         # max_memory=max_memory,
         torch_dtype=torch.bfloat16,
