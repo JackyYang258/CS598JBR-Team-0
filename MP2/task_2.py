@@ -159,37 +159,34 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
                         assert has_all_chars_even_count("AaBbCcC") == False
 
                     ## <Example End>    """
-                
+            Chain_of_Thought = """### Chain of Thought:
+                1. **Understanding the Function Purpose**: The function `has_all_chars_even_count` checks if each character in the provided string appears an even number of times. The function proceeds in two main steps:
+                - It first counts occurrences of each character using a dictionary.
+                - It then checks if all counts are even numbers. If any count is odd, it returns `False`; otherwise, it returns `True`.
 
-            
-        Chain_of_Thought = """### Chain of Thought:
-            1. **Understanding the Function Purpose**: The function `has_all_chars_even_count` checks if each character in the provided string appears an even number of times. The function proceeds in two main steps:
-            - It first counts occurrences of each character using a dictionary.
-            - It then checks if all counts are even numbers. If any count is odd, it returns `False`; otherwise, it returns `True`.
+                2. **Identifying Key Functional Components**:
+                - The **dictionary update logic** in the loop `for char in input_string` needs to be tested for both situations where a character is already in the dictionary (incrementing the count) and where it's not (initializing the count).
+                - The **conditional check** for even or odd counts in `for count in char_count.values()` to ensure it correctly identifies even and odd values.
 
-            2. **Identifying Key Functional Components**:
-            - The **dictionary update logic** in the loop `for char in input_string` needs to be tested for both situations where a character is already in the dictionary (incrementing the count) and where it's not (initializing the count).
-            - The **conditional check** for even or odd counts in `for count in char_count.values()` to ensure it correctly identifies even and odd values.
+                3. **Designing Test Cases Based on Function Logic**:
+                - **Empty String**: Tests how the function handles an absence of data, which is a boundary condition. An empty string should return `True` since there are no characters to have an odd count.
+                - **Single Character Repeated Evenly/Oddly**: Verifies the dictionary counting mechanism and the even/odd evaluation logic separately by checking strings where only one type of character is repeated.
+                - **Multiple Characters with Even Counts**: Ensures that the function handles multiple types of characters correctly and that the counting and even check work across different characters.
+                - **Multiple Characters with at Least One Odd Count**: Checks the functionality when at least one character violates the even count condition.
+                - **Special Characters**: Confirms that the function correctly handles non-alphanumeric characters.
+                - **Case Sensitivity**: Validates that the function is sensitive to character case, as dictionary keys in Python are case-sensitive.
 
-            3. **Designing Test Cases Based on Function Logic**:
-            - **Empty String**: Tests how the function handles an absence of data, which is a boundary condition. An empty string should return `True` since there are no characters to have an odd count.
-            - **Single Character Repeated Evenly/Oddly**: Verifies the dictionary counting mechanism and the even/odd evaluation logic separately by checking strings where only one type of character is repeated.
-            - **Multiple Characters with Even Counts**: Ensures that the function handles multiple types of characters correctly and that the counting and even check work across different characters.
-            - **Multiple Characters with at Least One Odd Count**: Checks the functionality when at least one character violates the even count condition.
-            - **Special Characters**: Confirms that the function correctly handles non-alphanumeric characters.
-            - **Case Sensitivity**: Validates that the function is sensitive to character case, as dictionary keys in Python are case-sensitive.
-
-            4. **Considerations for Comprehensive Test Coverage**:
-            - **Various Lengths and Characters**: Testing strings of different lengths and different sets of characters ensures robustness.
-            - **Boundary Checks**: Testing the smallest non-empty strings (like a single character) and strings where the count transitions from even to odd with the addition of one character."""
+                4. **Considerations for Comprehensive Test Coverage**:
+                - **Various Lengths and Characters**: Testing strings of different lengths and different sets of characters ensures robustness.
+                - **Boundary Checks**: Testing the smallest non-empty strings (like a single character) and strings where the count transitions from even to odd with the addition of one character."""
 
 
-        Instruction_crafted = '!!Now, you should follow the example above to complete the following function. Please output only Chain of Thought and Test Cases. Do not output <Example End>!!!!!! \
-                ### Instruction:\n \
-                Generate a pytest test suite for the following code. \n \
-                Only write unit tests in the output and nothing else. \n'
-                
-        prompt = prefix + Chain_of_Thought + Example + Instruction_crafted + entry['canonical_solution'] + '### Response:'
+            Instruction_crafted = '!!Now, you should follow the example above to complete the following function. Please output only Chain of Thought and Test Cases. Do not output <Example End>!!!!!! \
+                    ### Instruction:\n \
+                    Generate a pytest test suite for the following code. \n \
+                    Only write unit tests in the output and nothing else. \n'
+                    
+            prompt = prefix + Chain_of_Thought + Example + Instruction_crafted + entry['canonical_solution'] + '### Response:'
 
 
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
