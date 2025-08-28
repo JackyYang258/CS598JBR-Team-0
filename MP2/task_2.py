@@ -123,7 +123,22 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
           prompt = f"""You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.\n\n###Instruction:\nGenerate a pytest test suite for the following code.\nOnly write the unit tests in the output. Do NOT include the text from the prompt or the instructions.\n{solution}\n###Response"""
         else:
           solution = entry["prompt"] + entry["canonical_solution"]
-          prompt = f"""Please follow these instructions to write Python pytest tests for my Python code.\n### Instruction:\nYou are an AI programming assistant for generating pytest unit tests for Python programs. Please perform the following steps to write pytest code. Do not write any explanations of the pytests. Only write Python code and comments. Do not write any other text. Put your output after ###python_pytests.\n\nStep 1. Read the ###given program in the carefully to understand what it does, the data type of the input, and the execution flow.\nStep 2. Look at the ###example_tests I have given you to use as a starting point.\nStep 3. Generate as many additional pytest tests for the ###given program. Generate at least 10 additional tests.\nStep 4. Check your tests to make sure they cover all possible execution paths.\nStep 5. Create additional tests for any uncovered execution paths from step 4.\n\nReminder: do not write any explanations of the pytests. Only write Python code and comments. Do not write any other text.\n\n###given_program\n{solution}\n###example_tests\n{entry['test']}\n###python_pytests\nPlace the unit tests inside of ```python and ``` tags.\n"""
+          prompt = f"""You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+                ### Instruction:
+                Your task is to generate a comprehensive pytest test suite for the provided Python program.
+                1.  Analyze the 'Given Program' and the 'Example Tests' to understand the code's functionality.
+                2.  Write a variety of new pytest tests to cover all execution paths, including edge cases and potential error conditions.
+
+                Your output must only contain Python code for the unit tests. Do not include explanations or any other surrounding text. Place the tests inside of ```python and ``` tags.
+
+                ### Given Program
+                {solution}
+
+                ### Example Tests
+                {entry['test']}
+
+                ### Response
+                """
           #prompt = f"""You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.\n\n###Instruction:\nGenerate a pytest test suite for the following code.\nOnly write the unit tests in the output. Do NOT include the text from the prompt or the instructions.\n{solution}\n###Response"""
         model_input = tokenizer(prompt, return_tensors="pt").to("cuda")
         # TODO: prompt the model and get the response
