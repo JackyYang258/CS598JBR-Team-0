@@ -1,15 +1,1860 @@
-2025-08-28 00:00:47.062566: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2025-08-28 00:50:04.482953: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-E0000 00:00:1756339247.083837   22275 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
-E0000 00:00:1756339247.090450   22275 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
-W0000 00:00:1756339247.107478   22275 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
-W0000 00:00:1756339247.107510   22275 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
-W0000 00:00:1756339247.107514   22275 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
-W0000 00:00:1756339247.107516   22275 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
-2025-08-28 00:00:47.113485: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+E0000 00:00:1756342204.503860   34882 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1756342204.509962   34882 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1756342204.525432   34882 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1756342204.525458   34882 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1756342204.525460   34882 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1756342204.525462   34882 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2025-08-28 00:50:04.530066: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 Working with deepseek-ai/deepseek-coder-6.7b-instruct prompt type True...
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [01:00<01:00, 60.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:20<00:00, 36.90s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:20<00:00, 40.37s/it]
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [01:00<01:00, 60.56s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:21<00:00, 37.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:21<00:00, 40.58s/it]
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
 Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
-The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/156_test.py F                                      [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_int_to_mini_roman ____________________________
+
+    def test_int_to_mini_roman():
+        assert int_to_mini_roman(1) == 'i'
+        assert int_to_mini_roman(4) == 'iv'
+        assert int_to_mini_roman(5) == 'v'
+        assert int_to_mini_roman(9) == 'ix'
+        assert int_to_mini_roman(10) == 'x'
+        assert int_to_mini_roman(40) == 'xl'
+        assert int_to_mini_roman(50) == 'l'
+        assert int_to_mini_roman(90) == 'xc'
+        assert int_to_mini_roman(100) == 'c'
+        assert int_to_mini_roman(400) == 'cd'
+        assert int_to_mini_roman(500) == 'd'
+        assert int_to_mini_roman(900) == 'cm'
+        assert int_to_mini_roman(1000) == 'm'
+        assert int_to_mini_roman(1990) == 'mcmxc'
+>       assert int_to_mini_roman(3456) == 'mmmcdlx'
+E       AssertionError: assert 'mmmcdlvi' == 'mmmcdlx'
+E         
+E         - mmmcdlx
+E         ?       ^
+E         + mmmcdlvi
+E         ?       ^^
+
+MP2/Testing_Info/True/156_test.py:19: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/156_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/156_test.py::test_int_to_mini_roman - AssertionE...
+============================== 1 failed in 0.07s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 3 items
+
+MP2/Testing_Info/True/11_test.py .FF                                     [100%]
+
+=================================== FAILURES ===================================
+______________________ test_string_xor_different_lengths _______________________
+
+    def test_string_xor_different_lengths():
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+MP2/Testing_Info/True/11_test.py:17: Failed
+_______________________ test_string_xor_non_binary_input _______________________
+
+    def test_string_xor_non_binary_input():
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+MP2/Testing_Info/True/11_test.py:22: Failed
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/11_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/11_test.py::test_string_xor_different_lengths - ...
+FAILED MP2/Testing_Info/True/11_test.py::test_string_xor_non_binary_input - F...
+========================= 2 failed, 1 passed in 0.07s ==========================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 0 items
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/127_report.json
+============================ no tests ran in 0.07s =============================
+Command executed:  ['pytest', 'MP2/Testing_Info/True/156_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/156_report.json']
+Task_ID HumanEval/156:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def int_to_mini_roman(number):
+    
+    num = [1, 4, 5, 9, 10, 40, 50, 90,  
+           100, 400, 500, 900, 1000] 
+    sym = ["I", "IV", "V", "IX", "X", "XL",  
+           "L", "XC", "C", "CD", "D", "CM", "M"] 
+    i = 12
+    res = ''
+    while number: 
+        div = number // num[i] 
+        number %= num[i] 
+        while div: 
+            res += sym[i] 
+            div -= 1
+        i -= 1
+    return res.lower()
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def int_to_mini_roman(number):
+    
+    num = [1, 4, 5, 9, 10, 40, 50, 90,  
+           100, 400, 500, 900, 1000] 
+    sym = ["I", "IV", "V", "IX", "X", "XL",  
+           "L", "XC", "C", "CD", "D", "CM", "M"] 
+    i = 12
+    res = ''
+    while number: 
+        div = number // num[i] 
+        number %= num[i] 
+        while div: 
+            res += sym[i] 
+            div -= 1
+        i -= 1
+    return res.lower()
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import int_to_mini_roman  # replace 'your_module' with the name of the module where the function is defined
+
+def test_int_to_mini_roman():
+    assert int_to_mini_roman(1) == 'i'
+    assert int_to_mini_roman(4) == 'iv'
+    assert int_to_mini_roman(5) == 'v'
+    assert int_to_mini_roman(9) == 'ix'
+    assert int_to_mini_roman(10) == 'x'
+    assert int_to_mini_roman(40) == 'xl'
+    assert int_to_mini_roman(50) == 'l'
+    assert int_to_mini_roman(90) == 'xc'
+    assert int_to_mini_roman(100) == 'c'
+    assert int_to_mini_roman(400) == 'cd'
+    assert int_to_mini_roman(500) == 'd'
+    assert int_to_mini_roman(900) == 'cm'
+    assert int_to_mini_roman(1000) == 'm'
+    assert int_to_mini_roman(1990) == 'mcmxc'
+    assert int_to_mini_roman(3456) == 'mmmcdlx'
+```
+
+This test suite includes a few test cases to verify the functionality of the `int_to_mini_roman` function. You should replace 'your_module' with the actual name of the module where the function is defined.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/11_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/11_report.json']
+Task_ID HumanEval/11:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def string_xor(a: str, b: str) -> str:
+    
+    def xor(i, j):
+        if i == j:
+            return '0'
+        else:
+            return '1'
+
+    return ''.join(xor(x, y) for x, y in zip(a, b))
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def string_xor(a: str, b: str) -> str:
+    
+    def xor(i, j):
+        if i == j:
+            return '0'
+        else:
+            return '1'
+
+    return ''.join(xor(x, y) for x, y in zip(a, b))
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import string_xor  # replace 'your_module' with the name of the module where the function is defined
+
+
+def test_string_xor():
+    assert string_xor('001', '110') == '111'
+    assert string_xor('101', '010') == '111'
+    assert string_xor('111', '000') == '111'
+    assert string_xor('0', '1') == '1'
+    assert string_xor('1', '0') == '1'
+    assert string_xor('', '') == ''
+    assert string_xor('1111', '0000') == '1111'
+    assert string_xor('10101010', '01010101') == '11111111'
+
+
+def test_string_xor_different_lengths():
+    with pytest.raises(ValueError):
+        string_xor('101', '1010')
+
+
+def test_string_xor_non_binary_input():
+    with pytest.raises(ValueError):
+        string_xor('2', '3')
+```
+
+This test suite includes several tests:
+
+- `test_string_xor` tests the function with various inputs and checks if the output is as expected.
+- `test_string_xor_different_lengths` tests the function with strings of different lengths and checks if it raises a `ValueError`.
+- `test_string_xor_non_binary_input` tests the function with non-binary strings and checks if it raises a `ValueError`.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/127_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/127_report.json']
+Task_ID HumanEval/127:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def intersection(interval1, interval2):
+    
+    def is_prime(num):
+        if num == 1 or num == 0:
+            return False
+        if num == 2:
+            return True
+        for i in range(2, num):
+            if num%i == 0:
+                return False
+        return True
+
+    l = max(interval1[0], interval2[0])
+    r = min(interval1[1], interval2[1])
+    length = r - l
+    if length > 0 and is_prime(length):
+        return "YES"
+    return "NO"
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def intersection(interval1, interval2):
+    
+    def is_prime(num):
+        if num == 1 or num == 0:
+            return False
+        if num == 2:
+            return True
+        for i in range(2, num):
+            if num%i == 0:
+                return False
+        return True
+
+    l = max(interval1[0], interval2[0])
+    r = min(interval1[1], interval2[1])
+    length = r - l
+    if length > 0 and is_prime(length):
+        return "YES"
+    return "NO"
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import intersection
+
+def test_intersection_no_intersection():
+    assert intersection([1, 2], [3, 4]) == "NO"
+    assert intersection([3, 4], [1, 2]) == "NO"
+    assert intersection([1, 2], [2, 3]) == "NO"
+    assert intersection([2, 3], [1, 2]) == "NO"
+
+def test_intersection_intersects_at_endpoint():
+    assert intersection([1, 3], [2, 4]) == "YES"
+    assert intersection([2, 4], [1, 3]) == "YES"
+    assert intersection([1, 4], [1, 2]) == "YES"
+    assert intersection([1, 2], [1, 4]) == "YES"
+
+def test_intersection_intersects_in_middle():
+    assert intersection([1, 5], [3, 7]) == "YES"
+    assert intersection([3, 7], [1, 5]) == "YES"
+    assert intersection([1, 10], [4, 6]) == "YES"
+    assert intersection([4, 6], [1, 10]) == "YES"
+
+def test_intersection_same_interval():
+    assert intersection([1, 5], [1, 5]) == "YES"
+    assert intersection([2, 6], [2, 6]) == "YES"
+    assert intersection([3, 7], [3, 7]) == "YES"
+    assert intersection([4, 8], [4, 8]) == "YES"
+
+def test_intersection_intersects_at_single_point():
+    assert intersection([1, 1], [1, 1]) == "YES"
+    assert intersection([2, 2], [2, 2]) == "YES"
+    assert intersection([3, 3], [3, 3]) == "Y
+coverage:
+0.0The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/7_test.py .                                        [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/7_report.json
+============================== 1 passed in 0.07s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/145_test.py F                                      [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_order_by_points _____________________________
+
+    def test_order_by_points():
+>       assert order_by_points([15, 20, -30, 45]) == [-30, 15, 20, 45]
+E       assert [-30, 20, 15, 45] == [-30, 15, 20, 45]
+E         
+E         At index 1 diff: 20 != 15
+E         Use -v to get more diff
+
+MP2/Testing_Info/True/145_test.py:5: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/145_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/145_test.py::test_order_by_points - assert [-30,...
+============================== 1 failed in 0.07s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/6_test.py F                                        [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_parse_nested_parens ___________________________
+
+    def test_parse_nested_parens():
+        assert parse_nested_parens("()") == [1]
+        assert parse_nested_parens("(())") == [2]
+>       assert parse_nested_parens("()()") == [1, 1]
+E       assert [1] == [1, 1]
+E         
+E         Right contains one more item: 1
+E         Use -v to get more diff
+
+MP2/Testing_Info/True/6_test.py:8: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/6_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/6_test.py::test_parse_nested_parens - assert [1]...
+============================== 1 failed in 0.08s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/63_test.py F                                       [100%]
+
+=================================== FAILURES ===================================
+_________________________________ test_fibfib __________________________________
+
+    def test_fibfib():
+        assert fibfib(0) == 0
+        assert fibfib(1) == 0
+        assert fibfib(2) == 1
+        assert fibfib(3) == 1
+        assert fibfib(4) == 2
+        assert fibfib(5) == 4
+>       assert fibfib(10) == 144
+E       assert 81 == 144
+E        +  where 81 = fibfib(10)
+
+MP2/Testing_Info/True/63_test.py:19: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/63_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/63_test.py::test_fibfib - assert 81 == 144
+============================== 1 failed in 0.09s ===============================
+
+Command executed:  ['pytest', 'MP2/Testing_Info/True/7_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/7_report.json']
+Task_ID HumanEval/7:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    
+    return [x for x in strings if substring in x]
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    
+    return [x for x in strings if substring in x]
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from typing import List
+
+def filter_by_substring(strings: List[str], substring: str) -> List[str]:
+    return [x for x in strings if substring in x]
+
+def test_filter_by_substring():
+    assert filter_by_substring(["hello", "world", "python", "programming"], "pro") == ["programming"]
+    assert filter_by_substring(["apple", "banana", "cherry", "date"], "an") == ["banana"]
+    assert filter_by_substring(["a", "ab", "abc", "abcd"], "bcd") == ["abcd"]
+    assert filter_by_substring(["test", "fail", "pass"], "s") == ["test", "pass"]
+    assert filter_by_substring(["none"], "n") == ["none"]
+    assert filter_by_substring(["empty"], "") == ["empty"]
+    assert filter_by_substring(["no match"], "xyz") == []
+```
+
+This test suite includes several test cases to verify the functionality of the `filter_by_substring` function. It tests the function with different inputs and checks if the output is as expected.
+
+coverage:
+66.66666666666667
+Command executed:  ['pytest', 'MP2/Testing_Info/True/145_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/145_report.json']
+Task_ID HumanEval/145:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def order_by_points(nums):
+    
+    def digits_sum(n):
+        neg = 1
+        if n < 0: n, neg = -1 * n, -1 
+        n = [int(i) for i in str(n)]
+        n[0] = n[0] * neg
+        return sum(n)
+    return sorted(nums, key=digits_sum)
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def order_by_points(nums):
+    
+    def digits_sum(n):
+        neg = 1
+        if n < 0: n, neg = -1 * n, -1 
+        n = [int(i) for i in str(n)]
+        n[0] = n[0] * neg
+        return sum(n)
+    return sorted(nums, key=digits_sum)
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import order_by_points  # replace 'your_module' with the name of the module where the function is defined
+
+def test_order_by_points():
+    assert order_by_points([15, 20, -30, 45]) == [-30, 15, 20, 45]
+    assert order_by_points([10, 200, 3000, -4000]) == [10, 200, 3000, -4000]
+    assert order_by_points([0, 1, 2, 3, 4, 5]) == [0, 1, 2, 3, 4, 5]
+    assert order_by_points([-1, -2, -3, -4, -5]) == [-1, -2, -3, -4, -5]
+    assert order_by_points([123, 321, 456, 654]) == [123, 321, 456, 654]
+    assert order_by_points([]) == []
+```
+
+This test suite includes several test cases to verify the functionality of the `order_by_points` function. It tests the function with various inputs to ensure it behaves as expected.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/6_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/6_report.json']
+Task_ID HumanEval/6:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    
+    def parse_paren_group(s):
+        depth = 0
+        max_depth = 0
+        for c in s:
+            if c == '(':
+                depth += 1
+                max_depth = max(depth, max_depth)
+            else:
+                depth -= 1
+
+        return max_depth
+
+    return [parse_paren_group(x) for x in paren_string.split(' ') if x]
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    
+    def parse_paren_group(s):
+        depth = 0
+        max_depth = 0
+        for c in s:
+            if c == '(':
+                depth += 1
+                max_depth = max(depth, max_depth)
+            else:
+                depth -= 1
+
+        return max_depth
+
+    return [parse_paren_group(x) for x in paren_string.split(' ') if x]
+
+###Response
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import parse_nested_parens  # replace with your actual module name
+
+
+def test_parse_nested_parens():
+    assert parse_nested_parens("()") == [1]
+    assert parse_nested_parens("(())") == [2]
+    assert parse_nested_parens("()()") == [1, 1]
+    assert parse_nested_parens("((()))") == [3]
+    assert parse_nested_parens("((()))()") == [3, 1]
+    assert parse_nested_parens("((()))(())") == [3, 2]
+    assert parse_nested_parens("((()))((()))") == [3, 3]
+    assert parse_nested_parens("") == []
+    assert parse_nested_parens(" ") == []
+    assert parse_nested_parens("  ") == []
+    assert parse_nested_parens("   ") == []
+```
+
+This test suite covers a variety of scenarios, including empty strings, strings with spaces, and strings with multiple groups of parentheses. It also tests the function with various depths of nested parentheses.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/63_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/63_report.json']
+Task_ID HumanEval/63:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def fibfib(n: int):
+    
+    if n == 0:
+        return 0
+    if n == 1:
+        return 0
+    if n == 2:
+        return 1
+    return fibfib(n - 1) + fibfib(n - 2) + fibfib(n - 3)
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def fibfib(n: int):
+    
+    if n == 0:
+        return 0
+    if n == 1:
+        return 0
+    if n == 2:
+        return 1
+    return fibfib(n - 1) + fibfib(n - 2) + fibfib(n - 3)
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+
+def fibfib(n: int):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 0
+    if n == 2:
+        return 1
+    return fibfib(n - 1) + fibfib(n - 2) + fibfib(n - 3)
+
+def test_fibfib():
+    assert fibfib(0) == 0
+    assert fibfib(1) == 0
+    assert fibfib(2) == 1
+    assert fibfib(3) == 1
+    assert fibfib(4) == 2
+    assert fibfib(5) == 4
+    assert fibfib(10) == 144
+    assert fibfib(20) == 60956
+```
+
+This test suite includes a series of tests for the `fibfib` function. It checks the function's output for a variety of inputs, including edge cases (0, 1, and 2) as well as some larger inputs.
+
+coverage:
+0.0The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/17_test.py .                                       [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/17_report.json
+============================== 1 passed in 0.08s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 0 items
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/61_report.json
+============================ no tests ran in 0.07s =============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 7 items
+
+MP2/Testing_Info/True/66_test.py ...F...                                 [100%]
+
+=================================== FAILURES ===================================
+________________________ test_digitSum_multiple_letters ________________________
+
+    def test_digitSum_multiple_letters():
+>       assert digitSum("ABC") == ord("A") + ord("C")
+E       AssertionError: assert 198 == (65 + 67)
+E        +  where 198 = digitSum('ABC')
+E        +  and   65 = ord('A')
+E        +  and   67 = ord('C')
+
+MP2/Testing_Info/True/66_test.py:14: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/66_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/66_test.py::test_digitSum_multiple_letters - Ass...
+========================= 1 failed, 6 passed in 0.12s ==========================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 0 items
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/104_report.json
+============================ no tests ran in 0.08s =============================
+
+Command executed:  ['pytest', 'MP2/Testing_Info/True/17_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/17_report.json']
+Task_ID HumanEval/17:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def parse_music(music_string: str) -> List[int]:
+    
+    note_map = {'o': 4, 'o|': 2, '.|': 1}
+    return [note_map[x] for x in music_string.split(' ') if x]
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def parse_music(music_string: str) -> List[int]:
+    
+    note_map = {'o': 4, 'o|': 2, '.|': 1}
+    return [note_map[x] for x in music_string.split(' ') if x]
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import parse_music  # replace 'your_module' with the name of the module where the function is defined
+
+
+def test_parse_music():
+    assert parse_music('o') == [4]
+    assert parse_music('o|') == [2]
+    assert parse_music('.|') == [1]
+    assert parse_music('o o| .|') == [4, 2, 1]
+    assert parse_music('') == []
+    assert parse_music('o o| .| ') == [4, 2, 1]  # test with trailing space
+    assert parse_music(' o o| .| ') == [4, 2, 1]  # test with leading and trailing spaces
+```
+
+Please replace 'your_module' with the actual name of the module where the function is defined.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/61_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/61_report.json']
+Task_ID HumanEval/61:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def correct_bracketing(brackets: str):
+    
+    depth = 0
+    for b in brackets:
+        if b == "(":
+            depth += 1
+        else:
+            depth -= 1
+        if depth < 0:
+            return False
+    return depth == 0
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def correct_bracketing(brackets: str):
+    
+    depth = 0
+    for b in brackets:
+        if b == "(":
+            depth += 1
+        else:
+            depth -= 1
+        if depth < 0:
+            return False
+    return depth == 0
+
+###Response:
+def test_correct_bracketing():
+    assert correct_bracketing("()") == True
+    assert correct_bracketing("(()())") == True
+    assert correct_bracketing(")(") == False
+    assert correct_bracketing("(()()(") == False
+    assert correct_bracketing("") == True
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("()()()()()") == True
+    assert correct_bracketing("(((())))") == True
+    assert correct_bracketing("((()()()()())()()") == True
+    assert correct_bracketing(")(") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct_bracketing(")") == False
+    assert correct_bracketing("(") == False
+    assert correct
+coverage:
+0.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/66_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/66_report.json']
+Task_ID HumanEval/66:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def digitSum(s):
+    
+    if s == "": return 0
+    return sum(ord(char) if char.isupper() else 0 for char in s)
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def digitSum(s):
+    
+    if s == "": return 0
+    return sum(ord(char) if char.isupper() else 0 for char in s)
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import digitSum  # replace 'your_module' with the name of the module where the function is defined
+
+def test_digitSum_empty_string():
+    assert digitSum("") == 0
+
+def test_digitSum_single_uppercase_letter():
+    assert digitSum("A") == ord("A")
+
+def test_digitSum_single_lowercase_letter():
+    assert digitSum("a") == 0
+
+def test_digitSum_multiple_letters():
+    assert digitSum("ABC") == ord("A") + ord("C")
+
+def test_digitSum_mixed_case_letters():
+    assert digitSum("aBc") == ord("B")
+
+def test_digitSum_digits():
+    assert digitSum("123") == 0
+
+def test_digitSum_special_characters():
+    assert digitSum("!@#") == 0
+```
+
+This test suite includes tests for the following scenarios:
+
+- An empty string
+- A string with a single uppercase letter
+- A string with a single lowercase letter
+- A string with multiple uppercase letters
+- A string with a mix of uppercase and lowercase letters
+- A string with digits
+- A string with special characters
+
+Please replace 'your_module' with the actual name of the module where the function is defined.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/104_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/104_report.json']The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 4 items
+
+MP2/Testing_Info/True/137_test.py .FFF                                   [100%]
+
+=================================== FAILURES ===================================
+____________________ test_compare_one_first_number_greater _____________________
+
+    def test_compare_one_first_number_greater():
+        assert compare_one('1.23', '1.22') == '1.23'
+>       assert compare_one(1.23, 1.22) == '1.23'
+E       AssertionError: assert 1.23 == '1.23'
+E        +  where 1.23 = compare_one(1.23, 1.22)
+
+MP2/Testing_Info/True/137_test.py:10: AssertionError
+____________________ test_compare_one_second_number_greater ____________________
+
+    def test_compare_one_second_number_greater():
+        assert compare_one('1.22', '1.23') == '1.23'
+>       assert compare_one(1.22, 1.23) == '1.23'
+E       AssertionError: assert 1.23 == '1.23'
+E        +  where 1.23 = compare_one(1.22, 1.23)
+
+MP2/Testing_Info/True/137_test.py:14: AssertionError
+__________________ test_compare_one_with_strings_and_numbers ___________________
+
+    def test_compare_one_with_strings_and_numbers():
+        assert compare_one('1.23', 1.22) == '1.23'
+>       assert compare_one(1.23, '1.22') == '1.23'
+E       AssertionError: assert 1.23 == '1.23'
+E        +  where 1.23 = compare_one(1.23, '1.22')
+
+MP2/Testing_Info/True/137_test.py:18: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/137_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/137_test.py::test_compare_one_first_number_greater
+FAILED MP2/Testing_Info/True/137_test.py::test_compare_one_second_number_greater
+FAILED MP2/Testing_Info/True/137_test.py::test_compare_one_with_strings_and_numbers
+========================= 3 failed, 1 passed in 0.12s ==========================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 0 items
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/116_report.json
+============================ no tests ran in 0.09s =============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/0_test.py F                                        [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_has_close_elements ____________________________
+
+    def test_has_close_elements():
+        # Test with a list of numbers and a threshold
+        assert has_close_elements([1.0, 2.0, 3.0, 4.0], 1.5) == True
+        assert has_close_elements([1.0, 2.0, 3.0, 4.0], 0.5) == False
+        assert has_close_elements([1.0, 1.0, 1.0, 1.0], 0.5) == True
+        assert has_close_elements([1.0, 2.0, 3.0, 4.0], 1.0) == False
+        assert has_close_elements([], 0.5) == False
+    
+        # Test with negative numbers
+        assert has_close_elements([-1.0, -2.0, -3.0, -4.0], 1.5) == True
+        assert has_close_elements([-1.0, 1.0, -2.0, 2.0], 3.0) == True
+    
+        # Test with zero
+        assert has_close_elements([0.0, 1.0, 2.0, 3.0], 1.5) == True
+        assert has_close_elements([0.0, 0.0, 0.0, 0.0], 0.5) == True
+    
+        # Test with large numbers
+>       assert has_close_elements([1e6, 1e6 + 0.5, 1e6 + 1.0], 0.5) == True
+E       assert False == True
+E        +  where False = has_close_elements([1000000.0, 1000000.5, 1000001.0], 0.5)
+
+MP2/Testing_Info/True/0_test.py:22: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/0_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/0_test.py::test_has_close_elements - assert Fals...
+============================== 1 failed in 0.12s ===============================
+
+Task_ID HumanEval/104:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def unique_digits(x):
+    
+    odd_digit_elements = []
+    for i in x:
+        if all (int(c) % 2 == 1 for c in str(i)):
+            odd_digit_elements.append(i)
+    return sorted(odd_digit_elements)
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def unique_digits(x):
+    
+    odd_digit_elements = []
+    for i in x:
+        if all (int(c) % 2 == 1 for c in str(i)):
+            odd_digit_elements.append(i)
+    return sorted(odd_digit_elements)
+
+###Response:
+def test_unique_digits():
+    assert unique_digits([111, 222, 333, 444, 555]) == []
+    assert unique_digits([113, 225, 327, 459, 578]) == [327, 578]
+    assert unique_digits([115, 227, 339, 451, 573]) == [339, 573]
+    assert unique_digits([119, 221, 343, 465, 587]) == [343, 587]
+    assert unique_digits([110, 220, 330, 440, 550]) == []
+    assert unique_digits([112, 224, 336, 448, 551]) == [551]
+    assert unique_digits([114, 226, 338, 441, 553]) == [338, 441, 553]
+    assert unique_digits([116, 228, 340, 462, 584]) == [340, 584]
+    assert unique_digits([117, 229, 331, 453, 575]) == [331, 575]
+    assert unique_digits([118, 221, 342, 464, 586]) == [342, 586]
+
+coverage:
+0.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/137_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/137_report.json']
+Task_ID HumanEval/137:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def compare_one(a, b):
+    
+    temp_a, temp_b = a, b
+    if isinstance(temp_a, str): temp_a = temp_a.replace(',','.')
+    if isinstance(temp_b, str): temp_b = temp_b.replace(',','.')
+    if float(temp_a) == float(temp_b): return None
+    return a if float(temp_a) > float(temp_b) else b 
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def compare_one(a, b):
+    
+    temp_a, temp_b = a, b
+    if isinstance(temp_a, str): temp_a = temp_a.replace(',','.')
+    if isinstance(temp_b, str): temp_b = temp_b.replace(',','.')
+    if float(temp_a) == float(temp_b): return None
+    return a if float(temp_a) > float(temp_b) else b 
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import compare_one
+
+def test_compare_one_same_numbers():
+    assert compare_one('1.23', '1.23') == None
+    assert compare_one(1.23, 1.23) == None
+
+def test_compare_one_first_number_greater():
+    assert compare_one('1.23', '1.22') == '1.23'
+    assert compare_one(1.23, 1.22) == '1.23'
+
+def test_compare_one_second_number_greater():
+    assert compare_one('1.22', '1.23') == '1.23'
+    assert compare_one(1.22, 1.23) == '1.23'
+
+def test_compare_one_with_strings_and_numbers():
+    assert compare_one('1.23', 1.22) == '1.23'
+    assert compare_one(1.23, '1.22') == '1.23'
+    assert compare_one('1,23', 1.22) == '1.23'
+    assert compare_one(1.23, '1,22') == '1.23'
+```
+
+This suite includes tests for the following scenarios:
+
+- When the input numbers are the same.
+- When the first number is greater than the second.
+- When the second number is greater than the first.
+- When the inputs are a string and a number. The function should replace the comma with a dot before comparing the numbers.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/116_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/116_report.json']
+Task_ID HumanEval/116:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def sort_array(arr):
+    
+    return sorted(sorted(arr), key=lambda x: bin(x)[2:].count('1'))
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def sort_array(arr):
+    
+    return sorted(sorted(arr), key=lambda x: bin(x)[2:].count('1'))
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import sort_array  # replace 'your_module' with the actual module name
+
+def test_sort_array():
+    assert sort_array([3, 8, 5, 6]) == [3, 5, 6, 8]
+    assert sort_array([10, 7, 9, 8]) == [8, 10, 7, 9]
+    assert sort_array([4, 2, 1, 3]) == [1, 2, 4, 3]
+    assert sort_array([15, 20, 5, 10]) == [5, 10, 15, 20]
+    assert sort_array([1, 1, 1, 1]) == [1, 1, 1, 1]
+    assert sort_array([0, 0, 0, 0]) == [0, 0, 0, 0]
+    assert sort_array([12, 15, 13, 14]) == [12, 14, 15, 13]
+    assert sort_array([255, 254, 253, 252]) == [252, 254, 255, 253]
+    assert sort_array([100, 200, 300, 400]) == [100, 200, 300, 400]
+    assert sort_array([1000, 2000, 3000, 4000]) == [1000, 2000, 3000, 4000]
+
+def test_sort_array_with_negative_numbers():
+    assert sort_array([-3, -8, -5, -6]) == [-3, -5, -6, -8]
+    assert sort_array([-10, -7, -
+coverage:
+0.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/0_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/0_report.json']
+Task_ID HumanEval/0:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                distance = abs(elem - elem2)
+                if distance < threshold:
+                    return True
+
+    return False
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List
+
+
+def has_close_elements(numbers: List[float], threshold: float) -> bool:
+    
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                distance = abs(elem - elem2)
+                if distance < threshold:
+                    return True
+
+    return False
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import has_close_elements  # replace with your actual module name
+
+
+def test_has_close_elements():
+    # Test with a list of numbers and a threshold
+    assert has_close_elements([1.0, 2.0, 3.0, 4.0], 1.5) == True
+    assert has_close_elements([1.0, 2.0, 3.0, 4.0], 0.5) == False
+    assert has_close_elements([1.0, 1.0, 1.0, 1.0], 0.5) == True
+    assert has_close_elements([1.0, 2.0, 3.0, 4.0], 1.0) == False
+    assert has_close_elements([], 0.5) == False
+
+    # Test with negative numbers
+    assert has_close_elements([-1.0, -2.0, -3.0, -4.0], 1.5) == True
+    assert has_close_elements([-1.0, 1.0, -2.0, 2.0], 3.0) == True
+
+    # Test with zero
+    assert has_close_elements([0.0, 1.0, 2.0, 3.0], 1.5) == True
+    assert has_close_elements([0.0, 0.0, 0.0, 0.0], 0.5) == True
+
+    # Test with large numbers
+    assert has_close_elements([1e6, 1e6 + 0.5, 1e6 + 1.0], 0.5) == True
+    assert has_close_elements([1e3, 2e3, 3e3, 4e3], 1e2) == False
+```
+
+Please replace `your_module` with the actual name of the module where the `has_close_elements` function is defined.
+
+coverage:
+100.0The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/48_test.py F                                       [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_is_palindrome ______________________________
+
+    def test_is_palindrome():
+        assert is_palindrome('radar')
+        assert is_palindrome('level')
+        assert is_palindrome('a')
+        assert not is_palindrome('python')
+>       assert is_palindrome('Able was I ere I saw Elba')
+E       AssertionError: assert False
+E        +  where False = is_palindrome('Able was I ere I saw Elba')
+
+MP2/Testing_Info/True/48_test.py:9: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/48_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/48_test.py::test_is_palindrome - AssertionError:...
+============================== 1 failed in 0.12s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/86_test.py F                                       [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_anti_shuffle _______________________________
+
+    def test_anti_shuffle():
+        assert anti_shuffle("") == ""
+        assert anti_shuffle("ab") == "ab"
+        assert anti_shuffle("abc") == "abc"
+>       assert anti_shuffle("aab") == "aba"
+E       AssertionError: assert 'aab' == 'aba'
+E         
+E         - aba
+E         + aab
+
+MP2/Testing_Info/True/86_test.py:8: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/86_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/86_test.py::test_anti_shuffle - AssertionError: ...
+============================== 1 failed in 0.21s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/20_test.py F                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_find_closest_elements __________________________
+
+    def test_find_closest_elements():
+        assert find_closest_elements([1.0, 2.0, 3.0, 4.0]) == (1.0, 2.0)
+        assert find_closest_elements([1.0, 3.0, 6.0, 7.0]) == (6.0, 7.0)
+>       assert find_closest_elements([-1.0, -3.0, -6.0, -7.0]) == (-1.0, -3.0)
+E       assert (-7.0, -6.0) == (-1.0, -3.0)
+E         
+E         At index 0 diff: -7.0 != -1.0
+E         Use -v to get more diff
+
+MP2/Testing_Info/True/20_test.py:7: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/20_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/20_test.py::test_find_closest_elements - assert ...
+============================== 1 failed in 0.14s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 3 items
+
+MP2/Testing_Info/True/83_test.py .FF                                     [100%]
+
+=================================== FAILURES ===================================
+____________________ test_starts_one_ends_with_non_integer _____________________
+
+    def test_starts_one_ends_with_non_integer():
+        with pytest.raises(TypeError):
+            starts_one_ends('a')
+>       with pytest.raises(TypeError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'TypeError'>
+
+MP2/Testing_Info/True/83_test.py:14: Failed
+______________________ test_starts_one_ends_with_negative ______________________
+
+    def test_starts_one_ends_with_negative():
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+MP2/Testing_Info/True/83_test.py:18: Failed
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/83_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/83_test.py::test_starts_one_ends_with_non_integer
+FAILED MP2/Testing_Info/True/83_test.py::test_starts_one_ends_with_negative
+========================= 2 failed, 1 passed in 0.14s ==========================
+
+Command executed:  ['pytest', 'MP2/Testing_Info/True/48_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/48_report.json']
+Task_ID HumanEval/48:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def is_palindrome(text: str):
+    
+    for i in range(len(text)):
+        if text[i] != text[len(text) - 1 - i]:
+            return False
+    return True
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def is_palindrome(text: str):
+    
+    for i in range(len(text)):
+        if text[i] != text[len(text) - 1 - i]:
+            return False
+    return True
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import is_palindrome  # replace 'your_module' with the name of the module where the function is defined
+
+def test_is_palindrome():
+    assert is_palindrome('radar')
+    assert is_palindrome('level')
+    assert is_palindrome('a')
+    assert not is_palindrome('python')
+    assert is_palindrome('Able was I ere I saw Elba')
+    assert not is_palindrome(' ')
+```
+
+This test suite includes several tests to verify the functionality of the `is_palindrome` function. It tests the function with several different inputs, including palindromes, single characters, and sentences. The tests are designed to cover a variety of cases, including those that should return `True` and those that should return `False`.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/86_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/86_report.json']
+Task_ID HumanEval/86:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def anti_shuffle(s):
+    
+    return ' '.join([''.join(sorted(list(i))) for i in s.split(' ')])
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def anti_shuffle(s):
+    
+    return ' '.join([''.join(sorted(list(i))) for i in s.split(' ')])
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import anti_shuffle  # replace 'your_module' with the name of the module where the function is defined
+
+def test_anti_shuffle():
+    assert anti_shuffle("") == ""
+    assert anti_shuffle("ab") == "ab"
+    assert anti_shuffle("abc") == "abc"
+    assert anti_shuffle("aab") == "aba"
+    assert anti_shuffle("abc ab") == "abc ba"
+    assert anti_shuffle("abc abc") == "abc cba"
+    assert anti_shuffle("aab bca") == "aba bac"
+    assert anti_shuffle("aab bbca") == "aba bbac"
+    assert anti_shuffle("aabb ccba") == "aabb cba"
+    assert anti_shuffle("aabb ccbaa") == "aabb aacb"
+    assert anti_shuffle("aabb ccbaab") == "aabb abc"
+    assert anti_shuffle("aabb ccbaaab") == "aabb abcba"
+```
+
+This test suite includes a variety of test cases to ensure that the function works correctly with a variety of inputs. It tests the function with empty strings, single-character strings, strings with multiple words, and strings with repeated characters.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/20_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/20_report.json']
+Task_ID HumanEval/20:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List, Tuple
+
+
+def find_closest_elements(numbers: List[float]) -> Tuple[float, float]:
+    
+    closest_pair = None
+    distance = None
+
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                if distance is None:
+                    distance = abs(elem - elem2)
+                    closest_pair = tuple(sorted([elem, elem2]))
+                else:
+                    new_distance = abs(elem - elem2)
+                    if new_distance < distance:
+                        distance = new_distance
+                        closest_pair = tuple(sorted([elem, elem2]))
+
+    return closest_pair
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+from typing import List, Tuple
+
+
+def find_closest_elements(numbers: List[float]) -> Tuple[float, float]:
+    
+    closest_pair = None
+    distance = None
+
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                if distance is None:
+                    distance = abs(elem - elem2)
+                    closest_pair = tuple(sorted([elem, elem2]))
+                else:
+                    new_distance = abs(elem - elem2)
+                    if new_distance < distance:
+                        distance = new_distance
+                        closest_pair = tuple(sorted([elem, elem2]))
+
+    return closest_pair
+
+###Response:
+Here is a pytest test suite for the given code:
+
+```python
+import pytest
+from closest_elements import find_closest_elements
+
+def test_find_closest_elements():
+    assert find_closest_elements([1.0, 2.0, 3.0, 4.0]) == (1.0, 2.0)
+    assert find_closest_elements([1.0, 3.0, 6.0, 7.0]) == (6.0, 7.0)
+    assert find_closest_elements([-1.0, -3.0, -6.0, -7.0]) == (-1.0, -3.0)
+    assert find_closest_elements([1.0]) == None
+    assert find_closest_elements([]) == None
+```
+
+This test suite includes several test cases:
+
+- A test case with a positive numbers to ensure the function works correctly.
+- A test case with negative numbers to ensure the function works correctly.
+- A test case with a single element to ensure the function handles this correctly.
+- A test case with an empty list to ensure the function handles this correctly.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/83_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/83_report.json']The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 1 item
+
+MP2/Testing_Info/True/2_test.py F                                        [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_truncate_number _____________________________
+
+    def test_truncate_number():
+>       assert truncate_number(1.23) == 0.23
+E       assert 0.22999999999999998 == 0.23
+E        +  where 0.22999999999999998 = truncate_number(1.23)
+
+MP2/Testing_Info/True/2_test.py:5: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/2_report.json
+=========================== short test summary info ============================
+FAILED MP2/Testing_Info/True/2_test.py::test_truncate_number - assert 0.22999...
+============================== 1 failed in 0.15s ===============================
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Setting `pad_token_id` to `eos_token_id`:32021 for open-end generation.
+============================= test session starts ==============================
+platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
+rootdir: /content/CS598JBR-Team-0/MP2
+plugins: cov-6.2.1, langsmith-0.4.16, anyio-4.10.0, typeguard-4.4.4
+collected 3 items
+
+MP2/Testing_Info/True/41_test.py ...                                     [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.11-final-0 _______________
+
+Coverage JSON written to file MP2/Coverage/True/41_report.json
+============================== 3 passed in 0.23s ===============================
+
+Task_ID HumanEval/83:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def starts_one_ends(n):
+    
+    if n == 1: return 1
+    return 18 * (10 ** (n - 2))
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+def starts_one_ends(n):
+    
+    if n == 1: return 1
+    return 18 * (10 ** (n - 2))
+
+###Response:
+Sure, here is a pytest test suite for the given code:
+
+```python
+import pytest
+from your_module import starts_one_ends  # replace 'your_module' with the actual module name
+
+def test_starts_one_ends():
+    assert starts_one_ends(1) == 1
+    assert starts_one_ends(2) == 18
+    assert starts_one_ends(3) == 180
+    assert starts_one_ends(4) == 1800
+    assert starts_one_ends(5) == 18000
+
+def test_starts_one_ends_with_non_integer():
+    with pytest.raises(TypeError):
+        starts_one_ends('a')
+    with pytest.raises(TypeError):
+        starts_one_ends(1.5)
+
+def test_starts_one_ends_with_negative():
+    with pytest.raises(ValueError):
+        starts_one_ends(-1)
+```
+
+This test suite includes three tests:
+
+1. `test_starts_one_ends` checks the function with various inputs to ensure it behaves as expected.
+2. `test_starts_one_ends_with_non_integer` checks that the function raises a `TypeError` when given a non-integer input.
+3. `test_starts_one_ends_with_negative` checks that the function raises a `ValueError` when given a negative input.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/2_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/2_report.json']
+Task_ID HumanEval/2:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def truncate_number(number: float) -> float:
+    
+    return number % 1.0
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def truncate_number(number: float) -> float:
+    
+    return number % 1.0
+
+###Response:
+Sure, here is a simple pytest test suite for the given function:
+
+```python
+import pytest
+from your_module import truncate_number  # replace with your actual module name
+
+def test_truncate_number():
+    assert truncate_number(1.23) == 0.23
+    assert truncate_number(10.99) == 0.99
+    assert truncate_number(100.00) == 0.00
+    assert truncate_number(0.00) == 0.00
+    assert truncate_number(-1.23) == -0.23
+    assert truncate_number(-10.99) == -0.99
+    assert truncate_number(-100.00) == 0.00
+```
+
+This test suite includes a few different test cases to ensure that the function behaves as expected. It checks the function with positive, negative, and zero numbers.
+
+coverage:
+100.0
+Command executed:  ['pytest', 'MP2/Testing_Info/True/41_test.py', '--cov=MP2/Testing_Info/True', '--cov-report=json:MP2/Coverage/True/41_report.json']
+Task_ID HumanEval/41:
+prompt:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def car_race_collision(n: int):
+    
+    return n**2
+
+###Response
+response:
+You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.
+
+###Instruction:
+Generate a pytest test suite for the following code.
+Only write the unit tests in the output. Do NOT include the text from the prompt or the instructions.
+
+
+def car_race_collision(n: int):
+    
+    return n**2
+
+###Response:
+Sure, here is a simple pytest test suite for the given function:
+
+```python
+import pytest
+from your_module import car_race_collision  # replace 'your_module' with the name of the module where the function is defined
+
+def test_car_race_collision():
+    assert car_race_collision(2) == 4
+    assert car_race_collision(3) == 9
+    assert car_race_collision(4) == 16
+    assert car_race_collision(5) == 25
+
+def test_car_race_collision_negative():
+    assert car_race_collision(-2) == 4
+    assert car_race_collision(-3) == 9
+    assert car_race_collision(-4) == 16
+    assert car_race_collision(-5) == 25
+
+def test_car_race_collision_zero():
+    assert car_race_collision(0) == 0
+```
+
+This test suite includes three tests:
+
+1. `test_car_race_collision` tests the function with positive integers.
+2. `test_car_race_collision_negative` tests the function with negative integers.
+3. `test_car_race_collision_zero` tests the function with zero.
+
+Each test checks that the function returns the correct result for a variety of inputs.
+
+coverage:
+100.0

@@ -12,17 +12,48 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 # Please finish all TODOs in this file for MP2;
 #####################################################
 
-def run_pytest(file_path):
-    coverage_command = f"pytest --cov={file_path} --cov-report json:{file_path.replace('func_', '')}_test.json {file_path.replace('func', 'test')}.py"
-    
+
+def get_coverage(solution_file_path, test_file_path, report_path, vanilla):
+    command = [
+            "pytest",
+            test_file_path,
+            f"--cov=MP2/Testing_Info/{vanilla}",  
+            f"--cov-report=json:{report_path}"  
+        ]
     try:
-        coverage_result = subprocess.run(coverage_command, shell=True, check=True)
+        result = subprocess.run(command,)
+        print("Command executed: ", command)
+        
+        if report_path:
+            report = read_jsonl(report_path)
+            coverage = report[0]['files'][f"{solution_file_path}"]['summary']['percent_covered']
+            return coverage
+        else:
+            return "No report path found"
+
     except subprocess.CalledProcessError as e:
-        print(f"An error occurred while running tests: {e}")
-    with open(f"{file_path.replace('func_', '')}_test.json", "r") as f:
-        data = json.load(f)
-    covered = data["files"][f"{file_path}.py"]["summary"]["percent_covered"]
-    return covered 
+        print(f"Subprocess failed with error: {e}")
+        return None  # Or any appropriate value indicating failure
+
+def extract_tests(test_file_path):
+    # Join the list into a single string
+    text = ''.join(test_file_path)
+    
+    # Use regular expressions to extract the Python code block
+    code_blocks = re.findall(r'```python(.*?)```', text, re.DOTALL)
+    
+    if code_blocks:
+        # Return the first code block if found, otherwise return an empty string
+        return code_blocks[-1].strip()
+    
+    return ""
+def remove_explanation (entry):
+    # Use regular expression to remove all occurrences between triple quotes, including the quotes themselves
+    cleaned_text = re.sub(r'"""\s*.*?\s*"""', '', entry, flags=re.DOTALL)
+    cleaned_text = re.sub(r"'''\s*.*?\s*'''", '', cleaned_text, flags=re.DOTALL)
+
+    # Return the cleaned text
+    return cleaned_text
 
 def clean_string(input_string, file_name):
     """
@@ -81,140 +112,74 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
     
     results = []
     
+    
     for entry in dataset:
-        test_string = entry['test']
-        
-        pattern = re.compile(r"""
-            candidate\((.*?)\)\s*==\s*(.*?)(?:,|\n|$)
-            | # OR
-            assert\s+(not\s+)?candidate\((.*?)\)
-        """, re.VERBOSE)
-        
-        test_cases = []
-        for match in pattern.finditer(test_string):
-            if match.group(1) is not None: # Matched the '==' case
-                inp = match.group(1).strip()
-                out = match.group(2).strip()
-                test_cases.append((inp, out))
-            else: # Matched the 'assert' case
-                inp = match.group(4).strip()
-                # The output is False if 'not' was present (group 3)
-                out = not bool(match.group(3)) 
-                test_cases.append((inp, out))
+      # TODO: create prompt for the model
+        # Tip : Use can use any data from the dataset to create 
+        #       the prompt including prompt, canonical_solution, test, etc.
 
-        prefix = 'You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.'
         if vanilla:
-            Instruction = '\n### Instruction:\n \
-                Generate a pytest test suite for the following code. \n \
-                Only write unit tests in the output and nothing else. \n'
-
-            prompt = prefix + Instruction + entry['canonical_solution'] + '### Response:'
+          solution = remove_explanation(entry["prompt"]) + entry["canonical_solution"]
+          prompt = f"""You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.\n\n###Instruction:\nGenerate a pytest test suite for the following code.\nOnly write the unit tests in the output. Do NOT include the text from the prompt or the instructions.\n{solution}\n###Response"""
         else:
-            Example = """## <Example Begin>
-                ### Instruction:
-                Generate a pytest test suite for the following code, each with only one assert statement. You should generate more test cases to ensure 100% coverage. You should consider special cases and boundary conditions in the code to maximize the test coverage.
-
-                def has_all_chars_even_count(input_string):
-                    char_count = {}
-                    for char in input_string:
-                        if char in char_count:
-                            char_count[char] += 1
-                        else:
-                            char_count[char] = 1
-
-                    for count in char_count.values():
-                        if count % 2 != 0:
-                            return False
-                    return True
-                    Instruction = '\n### Instruction:\n \
-                        Generate a pytest test suite for the following code. \n \
-                        Only write unit tests in the output and nothing else. \n
-                    ### Test Cases:
-
-                    import pytest
-                    from your_module import has_all_chars_even_count
-
-                    def test_empty_string():
-                        assert has_all_chars_even_count("") == True
-
-                    def test_even_counts():
-                        assert has_all_chars_even_count("aabbcc") == True
-
-                    def test_odd_counts():
-                        assert has_all_chars_even_count("aabbc") == False
-
-                    def test_all_characters_same_even():
-                        assert has_all_chars_even_count("aaaa") == True
-
-                    def test_all_characters_same_odd():
-                        assert has_all_chars_even_count("aaa") == False
-
-                    def test_special_characters_even():
-                        assert has_all_chars_even_count("@@$$^^") == True
-
-                    def test_mixed_case_characters():
-                        assert has_all_chars_even_count("AaAa") == True
-
-                    def test_mixed_case_characters_odd():
-                        assert has_all_chars_even_count("AaBbCcC") == False
-
-                    ## <Example End>    """
-            Chain_of_Thought = """### Chain of Thought:
-                1. **Understanding the Function Purpose**: The function `has_all_chars_even_count` checks if each character in the provided string appears an even number of times. The function proceeds in two main steps:
-                - It first counts occurrences of each character using a dictionary.
-                - It then checks if all counts are even numbers. If any count is odd, it returns `False`; otherwise, it returns `True`.
-
-                2. **Identifying Key Functional Components**:
-                - The **dictionary update logic** in the loop `for char in input_string` needs to be tested for both situations where a character is already in the dictionary (incrementing the count) and where it's not (initializing the count).
-                - The **conditional check** for even or odd counts in `for count in char_count.values()` to ensure it correctly identifies even and odd values.
-
-                3. **Designing Test Cases Based on Function Logic**:
-                - **Empty String**: Tests how the function handles an absence of data, which is a boundary condition. An empty string should return `True` since there are no characters to have an odd count.
-                - **Single Character Repeated Evenly/Oddly**: Verifies the dictionary counting mechanism and the even/odd evaluation logic separately by checking strings where only one type of character is repeated.
-                - **Multiple Characters with Even Counts**: Ensures that the function handles multiple types of characters correctly and that the counting and even check work across different characters.
-                - **Multiple Characters with at Least One Odd Count**: Checks the functionality when at least one character violates the even count condition.
-                - **Special Characters**: Confirms that the function correctly handles non-alphanumeric characters.
-                - **Case Sensitivity**: Validates that the function is sensitive to character case, as dictionary keys in Python are case-sensitive.
-
-                4. **Considerations for Comprehensive Test Coverage**:
-                - **Various Lengths and Characters**: Testing strings of different lengths and different sets of characters ensures robustness.
-                - **Boundary Checks**: Testing the smallest non-empty strings (like a single character) and strings where the count transitions from even to odd with the addition of one character."""
-
-
-            Instruction_crafted = '!!Now, you should follow the example above to complete the following function. Please output only Chain of Thought and Test Cases. Do not output <Example End>!!!!!! \
-                    ### Instruction:\n \
-                    Generate a pytest test suite for the following code. \n \
-                    Only write unit tests in the output and nothing else. \n'
-                    
-            prompt = prefix + Chain_of_Thought + Example + Instruction_crafted + entry['canonical_solution'] + '### Response:'
-
-
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
-
+          solution = entry["prompt"] + entry["canonical_solution"]
+          prompt = f"""Please follow these instructions to write Python pytest tests for my Python code.\n### Instruction:\nYou are an AI programming assistant for generating pytest unit tests for Python programs. Please perform the following steps to write pytest code. Do not write any explanations of the pytests. Only write Python code and comments. Do not write any other text. Put your output after ###python_pytests.\n\nStep 1. Read the ###given program in the carefully to understand what it does, the data type of the input, and the execution flow.\nStep 2. Look at the ###example_tests I have given you to use as a starting point.\nStep 3. Generate as many additional pytest tests for the ###given program. Generate at least 10 additional tests.\nStep 4. Check your tests to make sure they cover all possible execution paths.\nStep 5. Create additional tests for any uncovered execution paths from step 4.\n\nReminder: do not write any explanations of the pytests. Only write Python code and comments. Do not write any other text.\n\n###given_program\n{solution}\n###example_tests\n{entry['test']}\n###python_pytests\nPlace the unit tests inside of ```python and ``` tags.\n"""
+          #prompt = f"""You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.\n\n###Instruction:\nGenerate a pytest test suite for the following code.\nOnly write the unit tests in the output. Do NOT include the text from the prompt or the instructions.\n{solution}\n###Response"""
+        model_input = tokenizer(prompt, return_tensors="pt").to("cuda")
         # TODO: prompt the model and get the response
-        output = model.generate(input_ids, max_length=5000, num_return_sequences=1)
-        response = tokenizer.decode(output[0], skip_special_tokens=True, temperature=0)
-        response = response.replace(prompt, "")
-        
-        func = entry["canonical_solution"]
-        # Func file
-        task_id = entry['task_id'].replace("HumanEval/", "")
-        save_file(func, f"func_{task_id}.py")
-
-        # Test file
-        test_code = clean_string(response, f"func_{task_id}")
-        save_file(test_code, f"test_{task_id}.py")
+        output = model.generate(
+            **model_input, do_sample=False, max_new_tokens=500, temperature=0.00
+        )
+        response = tokenizer.decode(output[0], skip_special_tokens=True)
 
         # TODO: process the response, generate coverage and save it to results
-        coverage = run_pytest(f"func_{task_id}")
+        # Ensure base directories exist
+        os.makedirs("MP2/Testing_Info", exist_ok=True)
+        os.makedirs(f"MP2/Testing_Info/{vanilla}", exist_ok=True)
+        report_path = f"MP2/Coverage/{vanilla}/{entry['task_id'].replace('HumanEval/', '')}_report.json"
+
+        # Save the solutions to the same directory as the test file
+        file_path = f"MP2/Testing_Info/{vanilla}/Task_{entry['task_id'].replace('HumanEval/', '')}_solution.py"
+        with open(file_path, 'w') as file:
+            file.write(solution)
+
+        # Save the generated test suite to a file (e.g., ID_test.py) in the same directory as the solution
+        test_file_path = f"MP2/Testing_Info/{vanilla}/{entry['task_id'].replace('HumanEval/', '')}_test.py"
+        with open(test_file_path, "w") as test_file:
+            test_file.write(extract_tests(response))
+
+        # Modify the import statement to match the solution file
+        with open(test_file_path, 'r') as file:
+            content = file.readlines()
+        
+        for i in range(len(content)):
+            match = re.match(r'^(from\s+)(\w+)(\s+import\s+.*)', content[i])
+            if match:
+                # Replace the old module name with the new one
+                content[i] = f"""{match.group(1)}Task_{entry['task_id'].replace('HumanEval/', '')}_solution{match.group(3)}\n"""
+            
+        with open(test_file_path, 'w') as file:
+            file.writelines(content)
+        
+        #Set up solution file path
+        solution_file_path = f"MP2/Testing_Info/{vanilla}/Task_{entry['task_id'].replace('HumanEval/', '')}_solution.py"
+
+        #Set up report_path
+        report_path = f"MP2/Coverage/{vanilla}/{entry['task_id'].replace('HumanEval/', '')}_report.json"
+     
+        #Set up test path
+        test_path = f"MP2/Testing_Info/{vanilla}/{entry['task_id'].replace('HumanEval/', '')}_test.py"
+  
+        #Generate coverage
+        coverage = get_coverage(solution_file_path, test_path, report_path, vanilla)
+
 
         print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\ncoverage:\n{coverage}")
         results.append({
             "task_id": entry["task_id"],
             "prompt": prompt,
             "response": response,
-            "coverage": coverage
+            "coverage": f"{coverage}%"
         })
 
         
